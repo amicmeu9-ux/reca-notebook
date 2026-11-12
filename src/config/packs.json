@@ -1,0 +1,25 @@
+{
+  "referralBonus": 30,
+  "packs": [
+    {
+      "id": "pack_500",
+      "amount": 500,
+      "priceLabel": "1,99 €",
+      "priceCents": 199,
+      "title": "Paquete Impulso",
+      "subtitle": "Ideal para época de parciales",
+      "badge": "Más popular",
+      "highlight": false
+    },
+    {
+      "id": "pack_1500",
+      "amount": 1500,
+      "priceLabel": "4,99 €",
+      "priceCents": 499,
+      "title": "Paquete Cuatrimestre",
+      "subtitle": "Escáner y vaciados sin pensar",
+      "badge": "Mejor valor",
+      "highlight": true
+    }
+  ]
+}

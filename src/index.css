@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --nb-canvas: #0D0D0F;
+    --nb-surface: #161618;
+    --nb-surface-hover: #1C1C1F;
+    --nb-surface-raised: #202024;
+    --nb-border: #242428;
+    --nb-border-hover: #2E2E34;
+    --nb-ink: #F5F5F7;
+    --nb-muted: #8E8E93;
+    --nb-accent: #FF2E43;
+    --nb-accent-fg: #FFFFFF;
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--nb-canvas);
+    color: var(--nb-ink);
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #242428 transparent;
+  }
+
+  ::selection {
+    background-color: rgba(255, 46, 67, 0.28);
+    color: var(--nb-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--nb-ink);
+    outline-offset: 2px;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tarjeta Gris Carbón (#161618) con borde ultra fino (#242428) estilo industrial */
+.nb-card {
+  background-color: var(--nb-surface);
+  border: 1px solid var(--nb-border);
+  box-shadow: none;
+}
+
+.nb-card-interactive {
+  transition:
+    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+@media (hover: hover) {
+  .nb-card-interactive:hover {
+    background-color: var(--nb-surface-hover);
+    border-color: var(--nb-border-hover);
+  }
+}
+
+.nb-card-interactive:active {
+  transform: scale(0.985);
+}
+
+@keyframes nb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.32;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.72;
+  }
+}
+
+.animate-nb-breathe {
+  animation: nb-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes nb-pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+.animate-nb-ring {
+  animation: nb-pulse-ring 1.7s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes nb-scan-beam {
+  0% {
+    top: 6%;
+    opacity: 0.25;
+  }
+  50% {
+    top: 88%;
+    opacity: 0.9;
+  }
+  100% {
+    top: 6%;
+    opacity: 0.25;
+  }
+}
+
+.animate-nb-scan {
+  animation: nb-scan-beam 2.1s ease-in-out infinite;
+}
+
+@keyframes nb-spark-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-nb-pop {
+  animation: nb-spark-pop 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes nb-check-pop {
+  0% {
+    transform: scale(0.75);
+  }
+  55% {
+    transform: scale(1.16);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-nb-check {
+  animation: nb-check-pop 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes nb-spark-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px))) scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-nb-spark {
+  animation: nb-spark-burst 540ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-nb-breathe,
+  .animate-nb-ring,
+  .animate-nb-scan,
+  .animate-nb-pop,
+  .animate-nb-check,
+  .animate-nb-spark {
+    animation: none !important;
+  }
+  .nb-card-interactive {
+    transition: none;
+  }
+}
