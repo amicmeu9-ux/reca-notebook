@@ -230,60 +230,9 @@
       color: var(--red);
     }
 
-    /* Visual 3-Node Signal Diagram under Hero CTAs */
-    .hero-signal-flow {
-      margin-top: 44px;
-      display: grid;
-      grid-template-columns: auto 1fr auto 1fr auto;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .sig-node {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-    .sig-node.muted { color: var(--stone); }
-    .sig-node-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--red);
-    }
-    .sig-wire {
-      height: 1px;
-      background: var(--hairline-strong);
-      position: relative;
-      overflow: hidden;
-      min-width: 24px;
-    }
-    .sig-wire::after {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: -30%;
-      width: 30%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--red), transparent);
-      animation: wirePulse 2.4s var(--ease) infinite;
-    }
-    .sig-wire.delayed::after { animation-delay: 1.2s; }
-    @keyframes wirePulse {
-      0% { left: -30%; }
-      100% { left: 110%; }
-    }
-
-    /* Live Ambient Ticker Strip under Signal Flow */
+    /* Live Ambient Ticker Strip */
     .hero-live-strip {
-      margin-top: 0;
+      margin-top: 44px;
       padding: 14px 0;
       border-top: 1px solid var(--hairline);
       border-bottom: 1px solid var(--hairline);
@@ -1040,36 +989,6 @@
       color: #fff;
     }
 
-    .live-status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-bottom: 16px;
-    }
-
-    .live-pulse {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--stone);
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-    .live-pulse.active {
-      background: var(--red);
-      animation: pulseRed 1s ease-in-out infinite;
-    }
-    @keyframes pulseRed {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.6); opacity: 0.45; }
-    }
-
     .extracted-list {
       border-top: 1px solid var(--hairline);
     }
@@ -1159,47 +1078,7 @@
       color: var(--stone);
       max-width: 560px;
       line-height: 1.6;
-      margin-bottom: 40px;
-    }
-
-    .closing-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-      margin-bottom: 72px;
-    }
-
-    .closing-link {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1.5px solid var(--hairline-strong);
-      padding-bottom: 4px;
-      background: none;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-      cursor: pointer;
-      transition: border-color 0.2s ease, color 0.2s ease;
-    }
-    .closing-link:hover {
-      border-bottom-color: var(--red);
-      color: var(--red);
-    }
-
-    .colophon {
-      padding-top: 28px;
-      border-top: 1px solid var(--hairline);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 16px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--stone);
+      margin-bottom: 0;
     }
 
     /* Discreet Paper Speaker Cue Note (Toggle with G) */
@@ -1274,15 +1153,6 @@
         <a href="#prova" class="link-underline">Provar en directe</a>
       </div>
 
-      <!-- Visual 3-Node Signal Diagram -->
-      <div class="hero-signal-flow" aria-hidden="true">
-        <span class="sig-node"><span class="sig-node-dot"></span>01 Veu · 4s</span>
-        <span class="sig-wire"></span>
-        <span class="sig-node muted">02 IA ordena</span>
-        <span class="sig-wire delayed"></span>
-        <span class="sig-node">03 Calendari ✓</span>
-      </div>
-
       <!-- Ambient cycling voice ticker -->
       <a href="#prova" class="hero-live-strip" id="hero-live-strip" title="Fes clic per provar la IA en directe">
         <div class="ticker-left">
@@ -1335,8 +1205,6 @@
       id="funcions"
       data-cue="Fes clic a les demos de cada punt: 01 simula l'ona de veu en viu, 02 arrossega el làser de la pissarra, 03 suma Tomas al comptador."
     >
-      <div class="section-title-sm">Com funciona</div>
-
       <div class="feature-list">
         <!-- 01. Captura per veu + Equalitzador interactiu -->
         <article class="feature-item">
@@ -1371,7 +1239,6 @@
           <div>
             <div class="feature-head">
               <h2 class="feature-title">Escàner de pissarra</h2>
-              <span class="feature-meta">Foto → Llista</span>
             </div>
             <p class="feature-desc">
               Foto directa. Zero notes perdudes a la galeria.
@@ -1409,7 +1276,6 @@
           <div>
             <div class="feature-head">
               <h2 class="feature-title">Economia de Tomas</h2>
-              <span class="feature-meta" id="tomas-inline-balance">Saldo: 100 ◉</span>
             </div>
             <p class="feature-desc">
               Complir o convidar suma saldo d'IA gratis.
@@ -1464,7 +1330,6 @@
       id="prova"
       data-cue="FES LA DEMO EN DIRECTE AQUÍ! Tria una frase, dicta amb el botó Parlar o escriu el que digui un company per veure la IA en directe."
     >
-      <div class="section-title-sm">Prova interactiva</div>
       <h2 class="live-heading">Escriu o tria una frase.</h2>
 
       <div class="prompt-examples">
@@ -1491,11 +1356,6 @@
         <button type="submit" class="editorial-submit">Processar →</button>
       </form>
 
-      <div class="live-status-bar">
-        <span><span class="live-pulse" id="live-pulse"></span><span id="live-status-text">Esperant frase</span></span>
-        <span id="live-meta-text">Gemini Flash</span>
-      </div>
-
       <div class="extracted-list" id="extracted-list"></div>
     </section>
 
@@ -1503,7 +1363,7 @@
     <footer
       class="closing"
       id="acces"
-      data-cue="Tancament comercial: convida els companys a obrir Reca des del navegador del mòbil i a copiar el codi d'aula RC-SAC26."
+      data-cue="Tancament comercial: convida els companys a obrir Reca des del navegador del mòbil."
     >
       <h2 class="closing-title">
         Prova-ho a classe<span class="dot">.</span>
@@ -1511,17 +1371,6 @@
       <p class="closing-copy">
         L'aplicació ja funciona ara mateix al teu mòbil.
       </p>
-
-      <div class="closing-links">
-        <a href="/?ref=RC-SAC26" class="closing-link">Obrir Reca ↗</a>
-        <button type="button" class="closing-link" id="copy-code-btn">Codi RC-SAC26 (Copiar)</button>
-        <a href="/slides.html" class="closing-link">Diapositives ↗</a>
-      </div>
-
-      <div class="colophon">
-        <span>Reca · Projecte SAC</span>
-        <span>2026</span>
-      </div>
     </footer>
   </main>
 
@@ -1854,7 +1703,6 @@
     // 7. Micro-UI 03: Kinetic Tomas Counter & Visual Dots Bar
     // =====================================================
     let tomas = 100;
-    const tomasMetaEl = document.getElementById('tomas-inline-balance');
     const tomasBigEl = document.getElementById('tomas-big-num');
     const tomasFeedEl = document.getElementById('tomas-feed');
     const tomasDotsBar = document.getElementById('tomas-dots-bar');
@@ -1876,7 +1724,6 @@
       const start = tomas;
       const target = tomas + delta;
       tomas = target;
-      tomasMetaEl.textContent = `Saldo: ${target} ◉`;
       syncTomasBar(target);
 
       const t0 = performance.now();
@@ -1975,9 +1822,6 @@
     // =====================================================
     // 10. Unboxed Live Gemini Voice/Text Extraction + Web Speech API Mic
     // =====================================================
-    const pulseEl = document.getElementById('live-pulse');
-    const statusTextEl = document.getElementById('live-status-text');
-    const metaTextEl = document.getElementById('live-meta-text');
     const listEl = document.getElementById('extracted-list');
     const inputEl = document.getElementById('sandbox-input');
     const sandboxForm = document.getElementById('sandbox-form');
@@ -2039,9 +1883,6 @@
 
       listEl.innerHTML = '';
       sandboxForm.classList.add('loading');
-      pulseEl.classList.add('active');
-      statusTextEl.textContent = 'Processant frase...';
-      const t0 = performance.now();
 
       try {
         const controller = new AbortController();
@@ -2057,12 +1898,8 @@
         });
         clearTimeout(timer);
         const data = await res.json();
-        const ms = Math.round(performance.now() - t0);
         if (res.ok && Array.isArray(data.tasks) && data.tasks.length > 0) {
           sandboxForm.classList.remove('loading');
-          pulseEl.classList.remove('active');
-          statusTextEl.textContent = `${data.tasks.length} tasques extretes`;
-          metaTextEl.textContent = `${data.model || 'Gemini'} · ${ms} ms`;
           renderRows(
             data.tasks.map((t) => ({
               title: t.title,
@@ -2079,7 +1916,6 @@
 
       setTimeout(() => {
         sandboxForm.classList.remove('loading');
-        pulseEl.classList.remove('active');
         let matched = null;
         for (const [k, v] of Object.entries(FALLBACKS)) {
           if (clean.includes(k)) { matched = v; break; }
@@ -2092,8 +1928,6 @@
             when: 'Proper lliurament'
           }];
         }
-        statusTextEl.textContent = `${matched.length} tasques extretes`;
-        metaTextEl.textContent = 'Demo local · 380 ms';
         renderRows(matched);
       }, 420);
     }
@@ -2117,7 +1951,6 @@
     const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
     liveMicBtn.addEventListener('click', () => {
       if (!SpeechRec) {
-        statusTextEl.textContent = 'Micròfon no disponible aquí — escriu o tria una frase';
         inputEl.focus();
         return;
       }
@@ -2127,7 +1960,6 @@
       rec.maxAlternatives = 1;
       liveMicBtn.classList.add('listening');
       liveMicBtn.textContent = '● Escoltant...';
-      statusTextEl.textContent = 'Parla ara en català o castellà...';
       rec.onresult = (evt) => {
         const spoken = evt.results[0]?.[0]?.transcript || '';
         inputEl.value = spoken;
@@ -2138,27 +1970,12 @@
       rec.onerror = () => {
         liveMicBtn.classList.remove('listening');
         liveMicBtn.textContent = '● Parlar';
-        statusTextEl.textContent = 'No s’ha pogut accedir al micròfon — prova escrivint';
       };
       rec.onend = () => {
         liveMicBtn.classList.remove('listening');
         liveMicBtn.textContent = '● Parlar';
       };
       rec.start();
-    });
-
-    // Copy Classroom Code
-    const copyBtn = document.getElementById('copy-code-btn');
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText('RC-SAC26');
-        copyBtn.textContent = 'Codi copiat: RC-SAC26 ✓';
-      } catch {
-        copyBtn.textContent = 'Codi: RC-SAC26';
-      }
-      setTimeout(() => {
-        copyBtn.textContent = 'Codi RC-SAC26 (Copiar)';
-      }, 2400);
     });
   </script>
 </body>
