@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reca · Presentació SAC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* 1. Base Stage 16:9 Invariants */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0D0D0F;
+      --surface: #17171C;
+      --orange: #FF4F00;
+      --orange-glow: rgba(255, 79, 0, 0.28);
+      --text-white: #F4F4F6;
+      --text-muted: #7E7E8A;
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      background: #000; font-family: var(--font-display);
+      color: var(--text-white); user-select: none;
+    }
+    .deck-viewport {
+      position: fixed; inset: 0; overflow: hidden;
+      background: #000; display: flex; align-items: center; justify-content: center;
+    }
+    .deck-stage {
+      position: absolute; left: 0; top: 0;
+      width: 1920px; height: 1080px; overflow: hidden;
+      transform-origin: 0 0; background: var(--bg);
+    }
+    .slide {
+      position: absolute; inset: 0; width: 1920px; height: 1080px;
+      overflow: hidden; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 120px 140px;
+      visibility: hidden; opacity: 0; pointer-events: none;
+      transition: opacity 0.5s var(--ease-spring), transform 0.5s var(--ease-spring);
+      transform: scale(0.98);
+      background: radial-gradient(circle at 50% -10%, rgba(255,79,0,0.06) 0%, transparent 60%), var(--bg);
+    }
+    .slide.active {
+      visibility: visible; opacity: 1; pointer-events: auto;
+      transform: scale(1); z-index: 10;
+    }
+
+    /* Ambient noise & corner badge */
+    .slide-badge {
+      font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--orange); display: flex; align-items: center; gap: 12px;
+    }
+    .slide-badge::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange); box-shadow: 0 0 12px var(--orange);
+    }
+    .slide-footer {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-family: var(--font-mono); font-size: 16px; color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+    }
+
+    /* Diapositiva 1: Portada Editorial */
+    .title-giant {
+      font-size: 170px; font-weight: 700; line-height: 0.88;
+      letter-spacing: -0.05em; text-transform: uppercase;
+      background: linear-gradient(180deg, #FFFFFF 0%, #A5A5B0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .title-accent { color: var(--orange); -webkit-text-fill-color: var(--orange); }
+    .hero-sub {
+      font-size: 38px; color: var(--text-muted); font-weight: 400;
+      letter-spacing: -0.02em; margin-top: 28px;
+    }
+
+    /* Diapositiva 2: Dada Numèrica */
+    .stat-huge {
+      font-size: 320px; font-weight: 700; line-height: 0.8;
+      font-family: var(--font-mono); color: var(--orange);
+      text-shadow: 0 0 80px var(--orange-glow); letter-spacing: -0.06em;
+    }
+    .stat-label {
+      font-size: 46px; font-weight: 500; color: var(--text-white);
+      max-width: 900px; line-height: 1.25; margin-top: 24px;
+    }
+
+    /* Diapositiva 3: Comparativa 2 Columnes */
+    .compare-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; height: 600px;
+    }
+    .compare-card {
+      padding: 60px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    .compare-card.highlight {
+      border: 1px solid rgba(255,79,0,0.4);
+      background: linear-gradient(180deg, rgba(255,79,0,0.08) 0%, rgba(23,23,28,0.6) 100%);
+      box-shadow: 0 20px 60px rgba(255,79,0,0.12);
+    }
+    .compare-tag {
+      font-family: var(--font-mono); font-size: 20px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 30px; letter-spacing: 0.1em;
+    }
+    .highlight .compare-tag { color: var(--orange); }
+    .compare-headline {
+      font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em;
+    }
+
+    /* Diapositiva 4: Flux Gràfic */
+    .flow-container {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 30px; margin: auto 0; position: relative;
+    }
+    .flow-line {
+      position: absolute; top: 50%; left: 80px; right: 80px; height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1), var(--orange), rgba(255,255,255,0.1));
+      z-index: 1; transform: translateY(-50%);
+    }
+    .flow-step {
+      position: relative; z-index: 2; width: 440px; height: 320px;
+      background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px; padding: 40px; display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    .flow-step.featured {
+      border-color: var(--orange);
+      box-shadow: 0 0 40px var(--orange-glow);
+    }
+    .step-num { font-family: var(--font-mono); font-size: 28px; color: var(--orange); }
+    .step-text { font-size: 34px; font-weight: 600; line-height: 1.2; }
+
+    /* Diapositiva 5: Manifest Tipogràfic */
+    .manifesto-box { margin: auto 0; max-width: 1500px; }
+    .manifesto-text {
+      font-size: 92px; font-weight: 700; line-height: 1.08; letter-spacing: -0.04em;
+    }
+    .manifesto-text span { color: var(--orange); }
+
+    /* Diapositiva 6: Mètrica de Tomas */
+    .token-display {
+      display: flex; align-items: center; justify-content: space-between; margin: auto 0;
+    }
+    .token-counter {
+      font-family: var(--font-mono); font-size: 240px; font-weight: 700;
+      color: var(--text-white); letter-spacing: -0.05em; display: flex; align-items: center; gap: 20px;
+    }
+    .token-pill {
+      background: var(--orange); color: #000; font-family: var(--font-display);
+      font-size: 40px; font-weight: 700; padding: 12px 36px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+
+    /* Diapositiva 7: Producte en Acció */
+    .product-stage {
+      display: flex; align-items: center; justify-content: center; margin: auto 0;
+    }
+    .mock-capsule {
+      width: 780px; padding: 48px; border-radius: 36px;
+      background: rgba(23, 23, 28, 0.7); backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 79, 0, 0.35);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.8), 0 0 50px var(--orange-glow);
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .mock-header { display: flex; justify-content: space-between; align-items: center; }
+    .wave-bars { display: flex; align-items: center; gap: 8px; height: 50px; }
+    .bar {
+      width: 6px; background: var(--orange); border-radius: 4px;
+      animation: pulseWave 1.2s ease-in-out infinite alternate;
+    }
+    .bar:nth-child(1) { height: 16px; animation-delay: 0.1s; }
+    .bar:nth-child(2) { height: 42px; animation-delay: 0.3s; }
+    .bar:nth-child(3) { height: 28px; animation-delay: 0.2s; }
+    .bar:nth-child(4) { height: 48px; animation-delay: 0.4s; }
+    .bar:nth-child(5) { height: 20px; animation-delay: 0.15s; }
+    @keyframes pulseWave {
+      0% { transform: scaleY(0.4); opacity: 0.5; }
+      100% { transform: scaleY(1.2); opacity: 1; }
+    }
+
+    /* Diapositiva 8: CTA Final */
+    .cta-container { margin: auto 0; text-align: left; }
+    .cta-huge {
+      font-size: 110px; font-weight: 700; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 50px;
+    }
+    .cta-button {
+      display: inline-flex; align-items: center; gap: 24px;
+      background: var(--orange); color: #000; font-size: 38px; font-weight: 700;
+      padding: 28px 64px; border-radius: 999px; text-decoration: none;
+      box-shadow: 0 15px 50px var(--orange-glow);
+    }
+
+    /* Controls */
+    .deck-controls {
+      position: fixed; bottom: 24px; right: 30px; display: flex; gap: 12px; z-index: 1000;
+    }
+    .nav-btn {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: #fff; width: 44px; height: 44px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 18px; transition: all 0.2s ease;
+    }
+    .nav-btn:hover { background: var(--orange); color: #000; border-color: var(--orange); }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport">
+    <div class="deck-stage" id="stage">
+
+      <!-- SLIDE 1: Portada Editorial -->
+      <section class="slide active" data-slide="1">
+        <div class="slide-badge">01 · RECA SYSTEM</div>
+        <div class="hero-block">
+          <h1 class="title-giant">RECA<span class="title-accent">.</span></h1>
+          <p class="hero-sub">L'organitzador que pensa al teu ritme.</p>
+        </div>
+        <div class="slide-footer">
+          <span>PROJECTE SAC · SERVEI D'ATENCIÓ AL CLIENT</span>
+          <span>01 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Dada Numèrica Brutal -->
+      <section class="slide" data-slide="2">
+        <div class="slide-badge">02 · EL PROBLEMA REAL</div>
+        <div class="stat-block">
+          <div class="stat-huge">83%</div>
+          <div class="stat-label">Dels àudios que t'envies a tu mateix mai més es tornen a escoltar.</div>
+        </div>
+        <div class="slide-footer">
+          <span>FRICCIÓ COGNITIVA EN ESTUDIANTS</span>
+          <span>02 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Comparativa Asimètrica -->
+      <section class="slide" data-slide="3">
+        <div class="slide-badge">03 · COMPARATIVA</div>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <div class="compare-tag">MÈTODE VELL</div>
+            <div class="compare-headline" style="color: var(--text-muted); text-decoration: line-through;">40 segons teclejant en calendaris feixucs.</div>
+          </div>
+          <div class="compare-card highlight">
+            <div class="compare-tag">AMB RECA</div>
+            <div class="compare-headline" style="color: #fff;">4 segons de veu. La IA estructura la teva feina.</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>EFICIÈNCIA RADICAL · ZERO ESFORÇ</span>
+          <span>03 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Flux de 3 Passos -->
+      <section class="slide" data-slide="4">
+        <div class="slide-badge">04 · ARQUITECTURA DEL SISTEMA</div>
+        <div class="flow-container">
+          <div class="flow-line"></div>
+          <div class="flow-step">
+            <div class="step-num">01 / CAPTURA</div>
+            <div class="step-text">Parles 5 segons o fas foto a la pissarra.</div>
+          </div>
+          <div class="flow-step featured">
+            <div class="step-num">02 / IA INSTANTÀNIA</div>
+            <div class="step-text">Gemini extreu data, urgència i matèria.</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">03 / EXECUCIÓ</div>
+            <div class="step-text">Tasca llista, ordenada i sincronitzada.</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>FLUX D'AUTOMATITZACIÓ INTEL·LIGENT</span>
+          <span>04 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Manifest Tipogràfic -->
+      <section class="slide" data-slide="5">
+        <div class="slide-badge">05 · FILOSOFIA</div>
+        <div class="manifesto-box">
+          <div class="manifesto-text">
+            Si apuntar una tasca fa mandra, <span>la tasca no s'apunta.</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>EXPERIÈNCIA D'USUARI · PSICOLOGIA DEL COMPORTAMENT</span>
+          <span>05 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Mètrica d'Incentiu (Tomas) -->
+      <section class="slide" data-slide="6">
+        <div class="slide-badge">06 · GAMIFICACIÓ SAC</div>
+        <div class="token-display">
+          <div>
+            <div class="token-counter">100 <span style="color: var(--orange);">⚡</span></div>
+            <div class="stat-label">Tomas diàries de franc. Procrastinar costa; complir premia.</div>
+          </div>
+          <div class="token-pill">ECONOMIA D'HÀBITS</div>
+        </div>
+        <div class="slide-footer">
+          <span>RETENCIÓ I FIDELITZACIÓ D'USUARIS</span>
+          <span>06 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: El Producte Viu -->
+      <section class="slide" data-slide="7">
+        <div class="slide-badge">07 · DISSENY INDUSTRIAL DE LUXE</div>
+        <div class="product-stage">
+          <div class="mock-capsule">
+            <div class="mock-header">
+              <span style="font-family: var(--font-mono); color: var(--orange); font-size: 20px;">● GRAVANT VEU</span>
+              <div class="wave-bars">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+              </div>
+            </div>
+            <div style="font-size: 42px; font-weight: 600; line-height: 1.2;">
+              "Dilluns a les 10h pràctica de SAC lliurada."
+            </div>
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); color: var(--text-muted); font-size: 20px;">
+              <span>CATEGORIA: ESTUDIS</span>
+              <span style="color: var(--orange);">PRIORITAT ALTA</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>INTERFÍCIE LIQUID GLASS + TEENAGE ENGINEERING</span>
+          <span>07 / 08</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: CTA Final -->
+      <section class="slide" data-slide="8">
+        <div class="slide-badge">08 · ACCIÓ IMMEDIATA</div>
+        <div class="cta-container">
+          <div class="cta-huge">
+            Deixaràs que se't torni a passar una data?
+          </div>
+          <div class="cta-button">
+            PROVA LA BETA PRIVADA DE CLASSE →
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>CODI ACTIU: 100 TOMAS EXTRA</span>
+          <span>08 / 08</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="deck-controls">
+    <button class="nav-btn" id="prevBtn" title="Anterior (←)">←</button>
+    <button class="nav-btn" id="nextBtn" title="Següent (→ / Espai)">→</button>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let currentIdx = 0;
+
+    function scaleStage() {
+      const designW = 1920;
+      const designH = 1080;
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+      const scale = Math.min(winW / designW, winH / designH);
+      const left = (winW - designW * scale) / 2;
+      const top = (winH - designH * scale) / 2;
+      stage.style.transform = `translate(${left}px, ${top}px) scale(${scale})`;
+    }
+
+    window.addEventListener('resize', scaleStage);
+    scaleStage();
+
+    function goToSlide(idx) {
+      if (idx < 0 || idx >= slides.length) return;
+      slides[currentIdx].classList.remove('active');
+      currentIdx = idx;
+      slides[currentIdx].classList.add('active');
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goToSlide(currentIdx - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goToSlide(currentIdx + 1));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        goToSlide(currentIdx + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        goToSlide(currentIdx - 1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

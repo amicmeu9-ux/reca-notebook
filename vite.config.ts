@@ -10,6 +10,9 @@ function apiDevMiddleware(env: Record<string, string>): Plugin {
     configureServer(server: ViteDevServer) {
       server.middlewares.use(
         async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+          if (req.url === '/showcase') {
+            req.url = '/showcase.html';
+          }
           const handled = await handleApiRequest(req, res, { env });
           if (!handled) {
             next();

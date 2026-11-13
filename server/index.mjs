@@ -48,7 +48,8 @@ function tryServeStatic(reqUrl, method, res) {
   if (!fs.existsSync(DIST_DIR)) return false;
 
   const pathname = new URL(reqUrl || '/', 'http://localhost').pathname;
-  const relPath = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
+  const normalizedPath = pathname === '/showcase' ? '/showcase.html' : pathname;
+  const relPath = normalizedPath === '/' ? 'index.html' : normalizedPath.replace(/^\/+/, '');
   let targetPath = path.resolve(DIST_DIR, relPath);
   const relCheck = path.relative(DIST_DIR, targetPath);
 
