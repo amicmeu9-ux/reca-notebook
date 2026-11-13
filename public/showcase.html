@@ -142,40 +142,6 @@
       padding: clamp(64px, 10vh, 104px) 0 clamp(68px, 10vh, 92px);
     }
 
-    .kicker {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .red-dot-pulse {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--red);
-      position: relative;
-    }
-    .red-dot-pulse::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1px solid var(--red);
-      opacity: 0.45;
-      animation: dotPing 2.4s var(--ease) infinite;
-    }
-    @keyframes dotPing {
-      0% { transform: scale(0.75); opacity: 0.7; }
-      100% { transform: scale(2.1); opacity: 0; }
-    }
-
     h1.hero-headline {
       font-size: clamp(40px, 6.2vw, 70px);
       font-weight: 800;
@@ -1291,11 +1257,6 @@
       id="inici"
       data-cue="Pregunta a la classe qui s'ha gravat un àudio a WhatsApp per recordar deures i mai no l'ha tornat a escoltar. Fes una pausa. Presenta Reca."
     >
-      <div class="kicker">
-        <span class="red-dot-pulse"></span>
-        <span>Reca · Gestor de veu</span>
-      </div>
-
       <h1 class="hero-headline">
         Parla <span class="word-highlight">quatre segons</span>.<br />
         La resta s'ordena <span style="white-space: nowrap;">sola<span class="accent-period">.</span></span>
